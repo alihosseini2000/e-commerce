@@ -1,56 +1,50 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+// import NextAuth, { AuthOptions } from "next-auth";
+// import GoogleProvider from "next-auth/providers/google";
+// import EmailProvider from "next-auth/providers/email";
 
-const handler = NextAuth({
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "ایمیل", type: "text", placeholder: "example@example.com" },
-        password: { label: "رمز عبور", type: "password" },
-      },
-      async authorize(credentials) {
-        const { email, password } = credentials || {};
+import { handlers } from "@/auth";
 
-        // ارسال درخواست به API سرور برای تأیید کاربر
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
+// export const authOptions: AuthOptions = {
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID!,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+//     }),
+//     EmailProvider({
+//       server: {
+//         host: process.env.EMAIL_SERVER_HOST!,
+//         port: Number(process.env.EMAIL_SERVER_PORT!),
+//         auth: {
+//           user: process.env.EMAIL_SERVER_USER!,
+//           pass: process.env.EMAIL_SERVER_PASSWORD!,
+//         },
+//       },
+//       from: process.env.EMAIL_FROM!,
+//     }),
+//   ],
+//   pages: {
+//     signIn: "/auth/signin",
+//   },
+//   session: {
+//     strategy: "jwt",
+//   },
+//   callbacks: {
+//     async jwt({ token, account, profile }) {
+//       if (account) {
+//         token.accessToken = account.access_token;
+//         if (profile) token.user = profile;
+//       }
+//       return token;
+//     },
+//     async session({ session, token }) {
+//       session.user = token.user;
+//       return session;
+//     },
+//   },
+// };
 
-        if (res.ok) {
-          const user = await res.json();
-          return user; // بازگرداندن اطلاعات کاربر برای ذخیره در سشن
-        }
+// const handler = NextAuth(authOptions);
+// export { handler as GET, handler as POST };
 
-        return null; // بازگرداندن null در صورت ناموفق بودن
-      },
-    }),
-  ],
-  pages: {
-    signIn: "/auth/signin", // صفحه ورود سفارشی
-    error: "/auth/error", // مدیریت خطاها
-  },
-  session: {
-    strategy: "jwt",
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.user = {
-        id: token.id,
-        email: token.email,
-      };
-      return session;
-    },
-  },
-});
 
-export { handler as GET, handler as POST };
+export const {GET , POST} = handlers;

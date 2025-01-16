@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/conttext/AuthContext";
 import ClientProvider from "./ClientProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AuthContext from "@/conttext/AuthContext";
 
 export const metadata: Metadata = {
   title: "E-Commerce",
@@ -19,13 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
+        <AuthContext>
           <ClientProvider>
             <Navbar />
             <main className="flex-grow">{children}</main>
             <Footer />
           </ClientProvider>
-        </AuthProvider>
+        </AuthContext>
 
       </body>
     </html>

@@ -1,5 +1,6 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth";
 
 // export default function Home() {
 //   return (
@@ -10,15 +11,16 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 //   );
 // }
 
-
-const ProtectedPage = async () => {
-  const session = await getServerSession(authOptions);
+const Dashboard = async () => {
+  const session = await auth();
+  console.log(session);
 
   if (!session) {
-    return <div>برای دسترسی، لطفاً وارد شوید.</div>;
+    return <div>لطفاً ابتدا وارد شوید.</div>;
   }
 
-  return <div>این یک صفحه محافظت‌شده است!</div>;
+  return <div>خوش آمدید، {session.user?.email}</div>;
 };
 
-export default ProtectedPage;
+export default Dashboard;
+

@@ -29,7 +29,7 @@ const initialState: ProductsState = {
 }
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axiosInstance.get('/api/products');
+  const response = await axiosInstance.get('/products');
   return response.data.products;
 });
 

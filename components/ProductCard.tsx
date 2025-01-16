@@ -2,8 +2,11 @@ import { Product } from '@/store/productsSlice';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const ProductCard = ({ product }: { product: Product }) => (
-  <div className="border rounded-lg p-4 shadow">
+const ProductCard = ({ product }: { product: Product }) => {
+  console.log(product.image);
+  
+  return(
+    <div className="border rounded-lg p-4 shadow">
     <Image src={product.image} alt={product.title} width={240} height={144} className="w-full object-cover mb-4" />
     <h3 className="text-lg font-bold">{product.title}</h3>
     <p className="text-gray-600">${product.price}</p>
@@ -11,6 +14,6 @@ const ProductCard = ({ product }: { product: Product }) => (
       View Details
     </Link>
   </div>
-);
+  )};
 
 export default ProductCard;
